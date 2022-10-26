@@ -1,0 +1,114 @@
+name: Krabi
+
+options:
+  deploymentTarget: 
+    iOS: 15.0
+  xcodeVersion: 14.0.1
+  useBaseInternationalization: false
+  bundleIdPrefix: com.y7matsuo
+  groupOrdering:
+    - order: [Krabi, Krabi Unit Tests, Domain, Domain Unit Tests, API, API Unit Tests]
+    - pattern: '^.*$'
+      order: [Source, Resource]
+attributes:
+  ORGANIZATIONNAME: y7matsuo
+settings:
+  MARKETING_VERSION: 1.0.0
+  CURRENT_PROJECT_VERSION: 1
+# packages:
+
+targetTemplates:
+  Main:
+    type: application
+    platform: iOS
+    sources:
+      - path: ./Krabi
+        excludes:
+          - "**/.*.swp"
+          - Scripts
+    # preBuildScripts:
+    #   - name: lint.sh
+    #     path: ./Krabi/Scripts/lint.sh
+    #     basedOnDependencyAnalysis: false
+    settings:
+      base:
+        ENABLE_PREVIEWS: true
+        GENERATE_INFOPLIST_FILE: true
+        INFOPLIST_KEY_UIApplicationSceneManifest_Generation: true
+        INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: true
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        OTHER_LDFLAGS: $(inherited) -ObjC
+        TARGETED_DEVICE_FAMILY: 1
+    dependencies:
+      - target: Domain
+      - target: API
+    scheme:
+      testTargets:
+        - Krabi Unit Tests
+
+  Framework:
+    type: framework
+    platform: iOS
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+
+  UnitTests:
+    type: bundle.unit-test
+    platform: iOS
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: true
+
+targets:
+  Krabi:
+    templates: [Main]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: krabi
+        ENVIRONMENT: prod
+
+  Krabi Dev:
+    templates: [Main]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: krabi.dev
+        ENVIRONMENT: dev
+        # ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon Dev
+
+  Krabi Unit Tests:
+    templates: [UnitTests]
+    sources: 
+      - path: ./Krabi Unit Tests
+    dependencies:
+      - target: Krabi
+
+  Domain:
+    templates: [Framework]
+    sources:
+      - path: ./Domain
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: krabi.domain
+
+  Domain Unit Tests:
+    templates: [UnitTests]
+    sources:
+      - path: ./Domain Unit Tests
+    dependencies:
+      - target: Domain
+
+  API:
+    templates: [Framework]
+    sources:
+      - path: ./API
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: krabi.api
+
+  API Unit Tests:
+    templates: [UnitTests]
+    sources:
+      - path: ./API Unit Tests
+    dependencies:
+      - target: API
