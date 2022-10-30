@@ -1,0 +1,30 @@
+{
+  "schemaName" : "LangkawiDomain",
+  "input" : {
+    "operationSearchPaths" : [
+      "**/*.graphql"
+    ],
+    "schemaSearchPaths" : [
+      "**/*.graphqls"
+    ]
+  },
+  "output" : {
+    "testMocks" : {
+      "none" : {
+      }
+    },
+    "schemaTypes" : {
+      "path" : "./LangkawiDomain/Source",
+      "moduleType" : {
+        "embeddedInTarget" : {
+          "name": "LangkawiDomain"
+        }
+      }
+    },
+    "operations" : {
+      "absolute" : {
+        "path": "./API/Source/Target"
+      }
+    }
+  }
+}

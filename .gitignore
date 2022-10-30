@@ -90,3 +90,5 @@ fastlane/test_output
 iOSInjectionProject/
 
 *.xcodeproj
+API/Source/Target
+LangkawiDomain/Source
