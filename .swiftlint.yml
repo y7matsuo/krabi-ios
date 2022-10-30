@@ -1,0 +1,34 @@
+reporter: "xcode"
+included:
+  - Krabi
+  - Domain
+  - API
+excluded:
+  - '*/Generated'
+  - './LangkawiDomain'
+  - './API/Source/Target'
+
+disabled_rules:
+  - todo
+  - force_cast
+
+opt_in_rules:
+  - sorted_imports
+  
+line_length:
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+
+type_name:
+  min_length: 2
+
+identifier_name:
+  min_length: 2
+  excluded:
+    - x
+    - y
+
+nesting:
+  type_level:
+    warning: 2

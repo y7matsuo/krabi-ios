@@ -7,7 +7,7 @@ options:
   useBaseInternationalization: false
   bundleIdPrefix: com.y7matsuo
   groupOrdering:
-    - order: [Krabi, Krabi Unit Tests, Domain, Domain Unit Tests, API, API Unit Tests]
+    - order: [Krabi, Krabi Unit Tests, Domain, Domain Unit Tests, LangkawiDomain, API, API Unit Tests]
     - pattern: '^.*$'
       order: [Source, Resource]
 attributes:
@@ -15,7 +15,10 @@ attributes:
 settings:
   MARKETING_VERSION: 1.0.0
   CURRENT_PROJECT_VERSION: 1
-# packages:
+packages:
+  Apollo:
+    url: https://github.com/apollographql/apollo-ios.git
+    minorVersion: 1.0.2
 
 targetTemplates:
   Main:
@@ -25,11 +28,13 @@ targetTemplates:
       - path: ./Krabi
         excludes:
           - "**/.*.swp"
-          - Scripts
-    # preBuildScripts:
-    #   - name: lint.sh
-    #     path: ./Krabi/Scripts/lint.sh
-    #     basedOnDependencyAnalysis: false
+          - .keep
+    preBuildScripts:
+      - name: Run Script(lint)
+        shell: /bin/sh
+        script: |
+          swiftlint --fix && swiftlint
+          exit 0
     settings:
       base:
         ENABLE_PREVIEWS: true
@@ -80,6 +85,8 @@ targets:
     templates: [UnitTests]
     sources: 
       - path: ./Krabi Unit Tests
+        excludes:
+          - .keep
     dependencies:
       - target: Krabi
 
@@ -87,6 +94,8 @@ targets:
     templates: [Framework]
     sources:
       - path: ./Domain
+        excludes:
+          - .keep
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: krabi.domain
@@ -95,6 +104,8 @@ targets:
     templates: [UnitTests]
     sources:
       - path: ./Domain Unit Tests
+        excludes:
+          - .keep
     dependencies:
       - target: Domain
 
@@ -102,13 +113,32 @@ targets:
     templates: [Framework]
     sources:
       - path: ./API
+        excludes:
+          - .keep
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: krabi.api
+    dependencies:
+      - target: LangkawiDomain
+      - package: Apollo
 
   API Unit Tests:
     templates: [UnitTests]
     sources:
       - path: ./API Unit Tests
+        excludes:
+          - .keep
     dependencies:
       - target: API
+
+  LangkawiDomain:
+    templates: [Framework]
+    sources:
+      - path: ./LangkawiDomain
+        excludes:
+          - .keep
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: krabi.domain.langkawi
+    dependencies:
+      - package: Apollo
