@@ -7,7 +7,7 @@ options:
   useBaseInternationalization: false
   bundleIdPrefix: com.y7matsuo
   groupOrdering:
-    - order: [Krabi, Krabi Unit Tests, Domain, Domain Unit Tests, LangkawiDomain, API, API Unit Tests]
+    - order: [Krabi, KrabiUnitTests, Domain, DomainUnitTests, API, APIUnitTests]
     - pattern: '^.*$'
       order: [Source, Resource]
 attributes:
@@ -16,9 +16,9 @@ settings:
   MARKETING_VERSION: 1.0.0
   CURRENT_PROJECT_VERSION: 1
 packages:
-  Apollo:
-    url: https://github.com/apollographql/apollo-ios.git
-    minorVersion: 1.0.2
+  Moya:
+    url: https://github.com/Moya/Moya.git
+    minorVersion: 15.0.3
 
 targetTemplates:
   Main:
@@ -49,7 +49,7 @@ targetTemplates:
       - target: API
     scheme:
       testTargets:
-        - Krabi Unit Tests
+        - KrabiUnitTests
 
   Framework:
     type: framework
@@ -81,10 +81,10 @@ targets:
         ENVIRONMENT: dev
         # ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon Dev
 
-  Krabi Unit Tests:
+  KrabiUnitTests:
     templates: [UnitTests]
     sources: 
-      - path: ./Krabi Unit Tests
+      - path: ./KrabiUnitTests
         excludes:
           - .keep
     dependencies:
@@ -100,10 +100,10 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: krabi.domain
 
-  Domain Unit Tests:
+  DomainUnitTests:
     templates: [UnitTests]
     sources:
-      - path: ./Domain Unit Tests
+      - path: ./DomainUnitTests
         excludes:
           - .keep
     dependencies:
@@ -119,26 +119,13 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: krabi.api
     dependencies:
-      - target: LangkawiDomain
-      - package: Apollo
+      - package: Moya
 
-  API Unit Tests:
+  APIUnitTests:
     templates: [UnitTests]
     sources:
-      - path: ./API Unit Tests
+      - path: ./APIUnitTests
         excludes:
           - .keep
     dependencies:
       - target: API
-
-  LangkawiDomain:
-    templates: [Framework]
-    sources:
-      - path: ./LangkawiDomain
-        excludes:
-          - .keep
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: krabi.domain.langkawi
-    dependencies:
-      - package: Apollo

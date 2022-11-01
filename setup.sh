@@ -14,5 +14,4 @@ install_tool "swiftlint"
 install_tool "swiftgen"
 
 # Setup
- ../apollo-ios/.build/release/apollo-ios-cli generate
- xcodegen generate
+xcodegen generate
